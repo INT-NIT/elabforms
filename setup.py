@@ -18,9 +18,9 @@ setup(
     package_data={
         "": ["*.json", "*.csv", "*.zip"],
     },
-    data_files=[('ELabforms', ['VERSION', 'README.md', 'requirements.txt'])],
-    author="Idrissou Fatai, Sylvain Takerkart",
-    description="Tools to interact with the elabFtw",
+    data_files=[('elabforms', ['VERSION', 'README.md', 'requirements.txt'])],
+    author=" Fatai Idrissou, Sylvain Takerkart",
+    description="A set of tools to create and manage standardized forms for eLabFTW",
     long_description_content_type="text/markdown",
     long_description=long_description,
     license='MIT',
@@ -32,7 +32,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "ElabForm=src.cli:main",
+            "elabform=src.cli:main"
         ],
     },
 )
