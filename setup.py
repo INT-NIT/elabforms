@@ -32,7 +32,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "elabform=src.cli:main"
+            "eform=src.cli:main"
         ],
     },
 )
