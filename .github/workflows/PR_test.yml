@@ -3,7 +3,7 @@ name: Checking unit-tests, PEP8 and standard pipeline congruency
 on:
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   build:
