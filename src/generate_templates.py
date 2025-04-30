@@ -103,14 +103,19 @@ def check_template_parts_structure(template_parts_file_content):
 
     # Check if 'elabftw' contains 'extra_fields_groups'
     if 'extra_fields_groups' not in template_parts_file_content['elabftw']:
-        raise ValueError("Invalid template parts file: Missing 'extra_fields_groups' in 'elabftw'")
-    if not isinstance(template_parts_file_content['elabftw']['extra_fields_groups'], list):
-        raise ValueError("Invalid template parts file: 'extra_fields_groups' should be a list")
+        raise ValueError("Invalid template parts file: Missing "
+                         "'extra_fields_groups' in 'elabftw'")
+    if not isinstance(template_parts_file_content['elabftw']
+                      ['extra_fields_groups'],list):
+        raise ValueError("Invalid template parts file: 'extra_fields_groups' "
+                         "should be a list")
     if not template_parts_file_content['elabftw']['extra_fields_groups']:
-        raise ValueError("Invalid template parts file: 'extra_fields_groups' list is empty")
+        raise ValueError("Invalid template parts file: 'extra_fields_groups' "
+                         "list is empty")
     if not all(isinstance(group, dict) for group in
                template_parts_file_content['elabftw']['extra_fields_groups']):
-        raise ValueError("Invalid template parts file: 'extra_fields_groups' should contain "
+        raise ValueError("Invalid template parts file: 'extra_fields_groups' "
+                         "should contain"
                          "dictionaries")
 
 
@@ -221,7 +226,8 @@ def generate_template(template_parts_list_file, template_file_path):
 if __name__ == "__main__":
 
     if len(sys.argv) != 3:
-        print("Usage: python generate_templates.py <template_parts_list_file.csv> "
+        print("Usage: python generate_templates.py "
+              "<template_parts_list_file.csv>"
               "<output_template.json>")
     else:
         generate_template(sys.argv[1], sys.argv[2])
