@@ -90,7 +90,7 @@ def edit_content_id(new_id, template_parts_file_content):
 
 
 def concatenate_template_parts(existing_template_parts_content,
-                                new_template_parts_content):
+                               new_template_parts_content):
     """
     Concatenates the contents of two template parts.
 
