@@ -212,8 +212,9 @@ def generate_template(template_parts_list_file, template_file_path):
         new_template_parts_content = read_template_parts(
             template_part_file)
 
-        new_template_parts_content = edit_content_id(new_id + 1,
-                                                     new_template_parts_content)
+        new_template_parts_content = edit_content_id(
+            new_id + 1,
+            new_template_parts_content)
         if full_template_content is None:
             full_template_content = new_template_parts_content
         else:
