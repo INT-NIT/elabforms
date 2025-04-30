@@ -1,6 +1,7 @@
 import csv
 import json
 import os
+import sys
 
 
 def read_template_parts_list(template_parts_list_file):
@@ -218,7 +219,6 @@ def generate_template(template_parts_list_file, template_file_path):
 
 
 if __name__ == "__main__":
-    import sys
 
     if len(sys.argv) != 3:
         print("Usage: python generate_templates.py <template_parts_list_file.csv> "
