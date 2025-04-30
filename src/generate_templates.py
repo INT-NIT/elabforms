@@ -22,9 +22,11 @@ def read_template_parts_list(template_parts_list_file):
 
     template_parts_list = []
     if template_parts_list_file.endswith('.csv'):
-        template_parts_list = read_template_parts_list_csv(template_parts_list_file)
+        template_parts_list = read_template_parts_list_csv(
+            template_parts_list_file)
     else:
-        raise ValueError(f"Unsupported file extension: {template_parts_list_file}")
+        raise ValueError(
+            f"Unsupported file extension: {template_parts_list_file}")
     for template_part in template_parts_list:
         if not os.path.exists(template_part):
             raise FileNotFoundError(f"File not found: {template_part}")
@@ -106,7 +108,7 @@ def check_template_parts_structure(template_parts_file_content):
         raise ValueError("Invalid template parts file: Missing "
                          "'extra_fields_groups' in 'elabftw'")
     if not isinstance(template_parts_file_content['elabftw']
-                      ['extra_fields_groups'],list):
+                      ['extra_fields_groups'], list):
         raise ValueError("Invalid template parts file: 'extra_fields_groups' "
                          "should be a list")
     if not template_parts_file_content['elabftw']['extra_fields_groups']:
@@ -210,12 +212,13 @@ def generate_template(template_parts_list_file, template_file_path):
         new_template_parts_content = read_template_parts(
             template_part_file)
 
-        new_template_parts_content = edit_content_id(new_id + 1, new_template_parts_content)
+        new_template_parts_content = edit_content_id(new_id + 1,
+                                                     new_template_parts_content)
         if full_template_content is None:
             full_template_content = new_template_parts_content
         else:
-            full_template_content = concatenate_template_parts(full_template_content,
-                                                               new_template_parts_content)
+            full_template_content = concatenate_template_parts(
+                full_template_content, new_template_parts_content)
 
         # Update the ID of the content
 
