@@ -91,7 +91,8 @@ def concatenate_template_parts(existing_template_parts_content, new_template_par
     Concatenates the contents of two template parts.
 
     Parameters:
-        existing_template_parts_content (dict): Content of the existing template.
+        existing_template_parts_content (dict): Content of the existing 
+        template.
         new_template_parts_content (dict): Content of the new template to append.
 
     Returns:
@@ -119,7 +120,8 @@ def generate_template(template_parts_list_file, template_file_path):
     Generates a full template by merging all template parts listed in a file.
 
     Parameters:
-        template_parts_list_file (str): Path to a .csv or .txt file listing JSON parts files.
+        template_parts_list_file (str): Path to a .csv or .txt file 
+        listing JSON parts files.
         template_file_path (str): Path to the output JSON file to save the template.
 
     Returns:
