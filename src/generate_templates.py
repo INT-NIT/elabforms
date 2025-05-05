@@ -54,7 +54,7 @@ def read_template_parts_list_csv(template_parts_list_file):
         return [row[0] for row in reader if row]
 
 
-def read_template_parts(template_parts_file):
+def read_template_part(template_parts_file):
     """
     Reads a JSON template parts file and extracts the 'groupfield' and
     its details.
@@ -121,7 +121,7 @@ def check_template_parts_structure(template_parts_file_content):
                          "dictionaries")
 
 
-def edit_content_id(new_id, template_parts_file_content):
+def set_content_id(new_id, template_parts_file_content):
     """
     Updates the ID of the content in a template parts.
 
@@ -144,8 +144,8 @@ def edit_content_id(new_id, template_parts_file_content):
     return template_parts_file_content
 
 
-def concatenate_template_parts(existing_template_parts_content,
-                               new_template_parts_content):
+def concatenate_templates(existing_template_parts_content,
+                          new_template_part_content):
     """
     Concatenates the contents of two template parts.
 
@@ -160,11 +160,11 @@ def concatenate_template_parts(existing_template_parts_content,
     """
     # Merge the 'extra_fields_groups'
     existing_template_parts_content['elabftw']['extra_fields_groups'].extend(
-        new_template_parts_content['elabftw']['extra_fields_groups']
+        new_template_part_content['elabftw']['extra_fields_groups']
     )
     # Merge the 'extra_fields'
     existing_template_parts_content['extra_fields'].update(
-        new_template_parts_content['extra_fields']
+        new_template_part_content['extra_fields']
     )
     return existing_template_parts_content
 
@@ -209,17 +209,17 @@ def generate_template(template_parts_list_file, template_file_path):
     # Iterate through each template part file
     for new_id, template_part_file in enumerate(template_parts_list):
         # Read the content of the current template part
-        new_template_parts_content = read_template_parts(
+        new_template_part_content = read_template_part(
             template_part_file)
 
-        new_template_parts_content = edit_content_id(
+        new_template_part_content = set_content_id(
             new_id + 1,
-            new_template_parts_content)
+            new_template_part_content)
         if full_template_content is None:
-            full_template_content = new_template_parts_content
+            full_template_content = new_template_part_content
         else:
-            full_template_content = concatenate_template_parts(
-                full_template_content, new_template_parts_content)
+            full_template_content = concatenate_templates(
+                full_template_content, new_template_part_content)
 
         # Update the ID of the content
 
