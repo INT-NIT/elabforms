@@ -2,7 +2,6 @@ import os
 import csv
 import json
 from template_part import TemplatePart
-from template import Template
 
 
 class TemplateBuilder:
