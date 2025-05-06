@@ -2,9 +2,10 @@ import os
 import csv
 import json
 from template_part import TemplatePart
+from template import Template
 
 
-class GenerateTemplate:
+class TemplateBuilder:
     """
     Class to generate a complete template from multiple parts.
     """
@@ -54,8 +55,7 @@ class GenerateTemplate:
             dict: Updated content.
         """
         for group in (
-                template_parts_file_content)['elabftw'][
-             'extra_fields_groups']:
+                template_parts_file_content)['elabftw']['extra_fields_groups']:
             group['id'] = new_id
 
         for field in template_parts_file_content['extra_fields'].values():
@@ -112,21 +112,21 @@ class GenerateTemplate:
         Returns:
             None
         """
-        template_parts_list = GenerateTemplate.read_template_parts_list(
+        template_parts_list = TemplateBuilder.read_template_parts_list(
             template_parts_list_file)
         full_template_content = None
 
         for new_id, template_part_file in enumerate(template_parts_list):
             template_part = TemplatePart(template_part_file)
-            new_template_part_content = GenerateTemplate.set_content_id(
-                new_id + 1, template_part.template_part)
+            new_template_part_content = TemplateBuilder.set_content_id(
+                new_id + 1, template_part.template_content)
 
             if full_template_content is None:
                 full_template_content = new_template_part_content
             else:
-                full_template_content = GenerateTemplate.concatenate(
+                full_template_content = TemplateBuilder.concatenate(
                     full_template_content, new_template_part_content
                 )
 
-        GenerateTemplate.save_template(full_template_content,
-                                       template_file_path)
+        TemplateBuilder.save_template(full_template_content,
+                                      template_file_path)

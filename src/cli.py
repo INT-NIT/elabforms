@@ -1,5 +1,5 @@
 import sys
-from generate_template import GenerateTemplate
+from template_builder import TemplateBuilder
 
 
 def main():
@@ -15,8 +15,8 @@ def main():
     output_template_file = sys.argv[2]
 
     try:
-        GenerateTemplate.generate_template(template_parts_list_file,
-                                           output_template_file)
+        TemplateBuilder.generate_template(template_parts_list_file,
+                                          output_template_file)
         print(f"Template successfully generated and saved to"
               f" {output_template_file}")
     except Exception as e:
