@@ -1,5 +1,4 @@
 import json
-import os
 
 
 class TemplatePart:
@@ -59,8 +58,8 @@ class TemplatePart:
             raise ValueError("Invalid template file: missing "
                              "'extra_fields_groups' key")
         if not isinstance(
-                template_parts_file_content['elabftw']['extra_fields_groups']
-                , list):
+                template_parts_file_content['elabftw']['extra_fields_groups'],
+                list):
             raise ValueError("'extra_fields_groups' must be a list")
         if not template_parts_file_content['elabftw']['extra_fields_groups']:
             raise ValueError("The 'extra_fields_groups' list is empty")
