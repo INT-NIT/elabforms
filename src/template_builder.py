@@ -12,7 +12,12 @@ class TemplateBuilder:
 
     def __init__(self, template_parts_list_file, template_file_path=None):
         """
-        Initializes the TemplateBuilder object.
+        Class to generate a complete template from multiple parts.
+
+        Attributes: template_parts_list_file (str): Path to the CSV file
+        listing template parts.
+        template_parts_list (list): List of JSON file paths for template parts.
+        template_file_path (str, optional): Path to the output JSON file.
         """
         self.template_parts_list_file = template_parts_list_file
         self.template_parts_list = self.read_template_parts_list(
@@ -67,7 +72,7 @@ class TemplateBuilder:
      """
         template_builder = TemplateBuilder(template_parts_list_file)
 
-        full_template = None
+        full_template = Template()
 
         for new_id, template_part_file in enumerate(
                 template_builder.template_parts_list):
@@ -75,10 +80,10 @@ class TemplateBuilder:
 
             new_template_part = template_part.set_content_id(new_id + 1)
 
-            if full_template is None:
+            if full_template.is_empty():
                 full_template = new_template_part
             else:
-                full_template = Template.concatenate(full_template,
-                                                     new_template_part)
+                full_template = Template.add_template_part(full_template,
+                                                           new_template_part)
 
         full_template.save_template(template_file_path)

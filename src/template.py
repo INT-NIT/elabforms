@@ -10,13 +10,17 @@ class Template:
         """
         Initializes the Template object.
 
+        Attributes: template_content (dict): Content of the template,
+        loaded from the JSON file.
+
         Parameters:
             template_file (str): Path to the JSON file.
         """
         if template_file is None:
             self.template_content = {}
-        self.template_file = template_file
-        self.template_content = self.read_template(template_file)
+        else:
+            self.template_file = template_file
+            self.template_content = self.read_template(template_file)
 
     @staticmethod
     def read_template(template_file):
@@ -76,9 +80,9 @@ class Template:
             raise ValueError("'extra_fields_groups' dictionaries must have an "
                              "'id' key")
 
-    def concatenate(self, new_template_part):
+    def add_template_part(self, new_template_part):
         """
-        Concatenates the current template content with a new template part.
+        add   the new template part content  with current one .
 
         Parameters:
             new_template_part (Template): A Template object containing the new content to add.
@@ -107,3 +111,12 @@ class Template:
         """
         with open(template_file_path, 'w') as f:
             json.dump(self.template_content, f, indent=4)
+
+    def is_empty(self):
+        """
+        Checks if the template content is empty.
+
+        Returns:
+            bool: True if the template content is empty, False otherwise.
+        """
+        return not bool(self.template_content)
