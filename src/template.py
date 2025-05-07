@@ -6,13 +6,15 @@ class Template:
     Class to manage a template for ElabFTW.
     """
 
-    def __init__(self, template_file):
+    def __init__(self, template_file=None):
         """
         Initializes the Template object.
 
         Parameters:
             template_file (str): Path to the JSON file.
         """
+        if template_file is None:
+            self.template_content = {}
         self.template_file = template_file
         self.template_content = self.read_template(template_file)
 
@@ -73,3 +75,35 @@ class Template:
                    template_file_content['elabftw']['extra_fields_groups']):
             raise ValueError("'extra_fields_groups' dictionaries must have an "
                              "'id' key")
+
+    def concatenate(self, new_template_part):
+        """
+        Concatenates the current template content with a new template part.
+
+        Parameters:
+            new_template_part (Template): A Template object containing the new content to add.
+
+        Returns:
+            dict: Merged content.
+        """
+        self.template_content['elabftw']['extra_fields_groups'].extend(
+            new_template_part.template_content['elabftw'][
+                'extra_fields_groups']
+        )
+        self.template_content['extra_fields'].update(
+            new_template_part.template_content['extra_fields']
+        )
+        return self
+
+    def save_template(self, template_file_path):
+        """
+        Saves the current template content to a JSON file.
+
+        Parameters:
+            template_file_path (str): Path to the output JSON file.
+
+        Returns:
+            None
+        """
+        with open(template_file_path, 'w') as f:
+            json.dump(self.template_content, f, indent=4)

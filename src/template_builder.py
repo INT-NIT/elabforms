@@ -2,12 +2,25 @@ import os
 import csv
 import json
 from template_part import TemplatePart
+from template import Template
 
 
 class TemplateBuilder:
     """
     Class to generate a complete template from multiple parts.
     """
+
+    def __init__(self, template_parts_list_file, template_file_path=None):
+        """
+        Initializes the TemplateBuilder object.
+        """
+        self.template_parts_list_file = template_parts_list_file
+        self.template_parts_list = self.read_template_parts_list(
+            template_parts_list_file)
+
+        if template_file_path:
+            self.template_file_path = template_file_path
+            self.build_template(template_parts_list_file, template_file_path)
 
     @staticmethod
     def read_template_parts_list(template_parts_list_file):
@@ -42,90 +55,31 @@ class TemplateBuilder:
         return template_parts_list
 
     @staticmethod
-    def set_content_id(new_id, template_parts_file_content):
+    def build_template(template_parts_list_file, template_file_path):
         """
-        Updates the IDs of the contents in a template part.
+     Generates a complete template by merging all the listed parts.
 
-        Parameters:
-            new_id (int): New ID to assign.
-            template_parts_file_content (dict): Content of the template part.
+     Parameters:
+         template_parts_list_file (str): Path to the CSV file listing the parts.
+         template_file_path (str): Path to the output JSON file.
 
-        Returns:
-            dict: Updated content.
-        """
-        for group in (
-                template_parts_file_content)['elabftw']['extra_fields_groups']:
-            group['id'] = new_id
+     Returns:
+         None
+     """
+        template_builder = TemplateBuilder(template_parts_list_file)
 
-        for field in template_parts_file_content['extra_fields'].values():
-            field['group_id'] = new_id
+        full_template = None
 
-        return template_parts_file_content
-
-    @staticmethod
-    def concatenate(existing_template_parts_content,
-                    new_template_part_content):
-        """
-        Concatenates two template part contents.
-
-        Parameters:
-            existing_template_parts_content (dict): Existing content.
-            new_template_part_content (dict): New content to add.
-
-        Returns:
-            dict: Merged content.
-        """
-        existing_template_parts_content['elabftw'][
-            'extra_fields_groups'].extend(
-            new_template_part_content['elabftw']['extra_fields_groups']
-        )
-        existing_template_parts_content['extra_fields'].update(
-            new_template_part_content['extra_fields']
-        )
-        return existing_template_parts_content
-
-    @staticmethod
-    def save_template(full_template_content, template_file_path):
-        """
-        Saves the template content to a JSON file.
-
-        Parameters:
-            full_template_content (dict): Content to save.
-            template_file_path (str): Path to the output file.
-
-        Returns:
-            None
-        """
-        with open(template_file_path, 'w') as f:
-            json.dump(full_template_content, f, indent=4)
-
-    @staticmethod
-    def generate_template(template_parts_list_file, template_file_path):
-        """
-        Generates a complete template by merging all listed parts.
-
-        Parameters: template_parts_list_file (str): Path to the CSV file
-        listing the parts. template_file_path (str): Path to the output JSON
-        file.
-
-        Returns:
-            None
-        """
-        template_parts_list = TemplateBuilder.read_template_parts_list(
-            template_parts_list_file)
-        full_template_content = None
-
-        for new_id, template_part_file in enumerate(template_parts_list):
+        for new_id, template_part_file in enumerate(
+                template_builder.template_parts_list):
             template_part = TemplatePart(template_part_file)
-            new_template_part_content = TemplateBuilder.set_content_id(
-                new_id + 1, template_part.template_content)
 
-            if full_template_content is None:
-                full_template_content = new_template_part_content
+            new_template_part = template_part.set_content_id(new_id + 1)
+
+            if full_template is None:
+                full_template = new_template_part
             else:
-                full_template_content = TemplateBuilder.concatenate(
-                    full_template_content, new_template_part_content
-                )
+                full_template = Template.concatenate(full_template,
+                                                     new_template_part)
 
-        TemplateBuilder.save_template(full_template_content,
-                                      template_file_path)
+        full_template.save_template(template_file_path)
