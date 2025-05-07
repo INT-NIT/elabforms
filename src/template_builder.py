@@ -59,9 +59,8 @@ class TemplateBuilder:
         """
      Generates a complete template by merging all the listed parts.
 
-     Parameters:
-         template_parts_list_file (str): Path to the CSV file listing the parts.
-         template_file_path (str): Path to the output JSON file.
+     Parameters: template_parts_list_file (str): Path to the CSV file
+     listing the parts. template_file_path (str): Path to the output JSON file.
 
      Returns:
          None
