@@ -1,6 +1,5 @@
 import os
 import csv
-import json
 from template_part import TemplatePart
 from template import Template
 
@@ -83,7 +82,7 @@ class TemplateBuilder:
             if full_template.is_empty():
                 full_template = new_template_part
             else:
-                full_template = Template.add_template_part(full_template,
-                                                           new_template_part)
+                full_template = Template.add_template_part(
+                    full_template, new_template_part)
 
         full_template.save_template(template_file_path)

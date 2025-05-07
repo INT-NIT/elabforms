@@ -84,8 +84,8 @@ class Template:
         """
         add   the new template part content  with current one .
 
-        Parameters:
-            new_template_part (Template): A Template object containing the new content to add.
+        Parameters: new_template_part (Template): A Template object
+        containing the new content to add.
 
         Returns:
             dict: Merged content.
