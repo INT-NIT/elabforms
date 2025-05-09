@@ -13,10 +13,14 @@ class TemplateBuilder:
         """
         Class to generate a complete template from multiple parts.
 
-        Attributes: template_parts_list_file (str): Path to the CSV file
-        listing template parts.
-        template_parts_list (list): List of JSON file paths for template parts.
-        template_file_path (str, optional): Path to the output JSON file.
+        Attributes:
+             template_parts_list_file (str): Path to the CSV file
+                listing template parts.
+
+             template_parts_list (list): List of JSON file paths for
+             template parts.
+              template_file_path (str, optional): Path to the
+             output JSON file.
         """
         self.template_parts_list_file = template_parts_list_file
         self.template_parts_list = self.read_template_parts_list(
@@ -63,8 +67,10 @@ class TemplateBuilder:
         """
      Generates a complete template by merging all the listed parts.
 
-     Parameters: template_parts_list_file (str): Path to the CSV file
-     listing the parts. template_file_path (str): Path to the output JSON file.
+     Parameters:
+            template_parts_list_file (str): Path to the CSV file
+     listing the parts.
+            template_file_path (str): Path to the output JSON file.
 
      Returns:
          None

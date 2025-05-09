@@ -10,7 +10,8 @@ class Template:
         """
         Initializes the Template object.
 
-        Attributes: template_content (dict): Content of the template,
+        Attributes:
+             template_content (dict): Content of the template,
         loaded from the JSON file.
 
         Parameters:
@@ -82,10 +83,10 @@ class Template:
 
     def add_template_part(self, new_template_part):
         """
-        add   the new template part content  with current one .
-
-        Parameters: new_template_part (Template): A Template object
-        containing the new content to add.
+        Add a new template part to the current template
+        Parameters:
+            new_template_part (Template): A Template object
+            containing the new content to add.
 
         Returns:
             dict: Merged content.
