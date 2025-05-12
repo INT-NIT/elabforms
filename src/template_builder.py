@@ -83,12 +83,12 @@ class TemplateBuilder:
                 template_builder.template_parts_list):
             template_part = TemplatePart(template_part_file)
 
-            new_template_part = template_part.set_content_id(new_id + 1)
+            template_part.set_content_id(new_id + 1)
 
             if full_template.is_empty():
-                full_template = new_template_part
+                full_template = template_part
             else:
-                full_template = Template.add_template_part(
-                    full_template, new_template_part)
+                full_template.add_template_part(
+                                                template_part)
 
         full_template.save_template(template_file_path)
