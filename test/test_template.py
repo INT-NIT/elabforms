@@ -3,10 +3,8 @@ import os
 import json
 import sys
 
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '../src')))
 
-from template import Template
+from template import Template  # noqa: E402
 
 
 class TestTemplate(unittest.TestCase):
