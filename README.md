@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ```bash
 cd src
 
-python generate_templates.py template_file_list.csv template_generated .json
+python generate_templates.py template_file_list.csv template_generated.json
 ```
 
 ## Example
@@ -23,7 +23,7 @@ template_part_Example_1.json
 template_part_Example_2.json
 
 ```bash
-python generate_templates.py template_file_list.csv template_generated .json
+python generate_templates.py template_file_list.csv template_generated.json
 ```
  let 's template_part_Example_1.json` ![GENERIC_BIDS_SESSION](docs/GNERIC_BIDS_SESSION.png) 
 
@@ -109,7 +109,7 @@ with the following content:
 }
 ```
 
-This will generate the following file " template_generated .json" ![GENERIC_BIDS_SESSION](docs/template_generated.png),
+This will generate the following file " template_generated.json" ![GENERIC_BIDS_SESSION](docs/template_generated.png),
 
 which will contain the content of the two files `template_part_Example_1.json` and `template_part_Example_2.json` concatenated together.
 ```json
