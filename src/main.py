@@ -22,8 +22,9 @@ async def generate_template(
     template_parts_list_file: UploadFile = File(...),
     project_name: str = Form(...)
 ):
-    working_dir = os.path.dirname(os.path.abspath(__file__))
 
+    working_dir = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     # Temporarily save the uploaded CSV file
     input_filename = os.path.join(
         working_dir, f"temp_{template_parts_list_file.filename}"
@@ -41,7 +42,6 @@ async def generate_template(
     try:
         original_cwd = os.getcwd()
         os.chdir(working_dir)
-
         # Generate the JSON with TemplateBuilder
         TemplateBuilder(input_filename, output_filename)
 
