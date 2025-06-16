@@ -7,7 +7,6 @@ from template_builder import TemplateBuilder
 
 app = FastAPI()
 templates = Jinja2Templates(directory="src/templates")
-
 @app.get("/", response_class=HTMLResponse)
 async def read_form(request: Request):
     # Render the upload form HTML page
@@ -21,7 +20,8 @@ async def generate_template(
     working_dir = os.path.dirname(os.path.abspath(__file__))
 
     # Save the uploaded CSV file temporarily
-    input_filename = os.path.join(working_dir, f"temp_{template_parts_list_file.filename}")
+    input_filename = os.path.join(working_dir,
+                        f"temp_{template_parts_list_file.filename}")
     with open(input_filename, "wb") as buffer:
         shutil.copyfileobj(template_parts_list_file.file, buffer)
 
