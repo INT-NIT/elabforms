@@ -8,13 +8,14 @@ from template_builder import TemplateBuilder
 app = FastAPI()
 templates = Jinja2Templates(directory="src/templates")
 
-# Définir la racine pour servir le formulaire HTML
+
 @app.get("/", response_class=HTMLResponse)
 async def read_form(request: Request):
-    # Affiche la page HTML du formulaire d'upload
+    # Display the HTML upload form page
     return templates.TemplateResponse(
         "upload.html", {"request": request}
     )
+
 
 @app.post("/generate-template/")
 async def generate_template(
@@ -23,7 +24,7 @@ async def generate_template(
 ):
     working_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Sauvegarde temporaire du fichier CSV uploadé
+    # Temporarily save the uploaded CSV file
     input_filename = os.path.join(
         working_dir, f"temp_{template_parts_list_file.filename}"
     )
@@ -32,7 +33,7 @@ async def generate_template(
             template_parts_list_file.file, buffer
         )
 
-    # Définir le nom du fichier JSON de sortie
+    # Define the output JSON filename
     output_filename = os.path.join(
         working_dir, f"{project_name}.json"
     )
@@ -41,10 +42,10 @@ async def generate_template(
         original_cwd = os.getcwd()
         os.chdir(working_dir)
 
-        # Générer le JSON avec TemplateBuilder
+        # Generate the JSON with TemplateBuilder
         TemplateBuilder(input_filename, output_filename)
 
-        # Retourner le fichier JSON généré
+        # Return the generated JSON file
         return FileResponse(
             path=output_filename,
             filename=f"{project_name}.json",
@@ -52,11 +53,11 @@ async def generate_template(
         )
 
     except Exception as e:
-        # Retourner un message d'erreur en cas d'échec
+        # Return an error message if something fails
         return {"error": str(e)}
 
     finally:
         os.chdir(original_cwd)
-        # Nettoyer le fichier CSV temporaire
+        # Clean up the temporary CSV file
         if os.path.exists(input_filename):
             os.remove(input_filename)
