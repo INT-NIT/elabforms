@@ -8,7 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    name: Run unit tests and PEP8 checks
+    env:
+      PYTHONPATH: ${{ github.workspace }}/elabforms
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -30,5 +32,6 @@ jobs:
         run: |
           flake8 --count elabforms  # Check code for PEP8 compliance in the 'elabforms' directory
       - name: Run pytest for unit tests
+
         run: |
-          pytest --cov=src  tests/  # Run unit tests and measure coverage
+          pytest --cov=elabforms  tests/  # Run unit tests and measure coverage
