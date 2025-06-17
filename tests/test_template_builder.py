@@ -5,9 +5,9 @@ import json
 import sys
 #   sys.path.insert(0, os.path.abspath(
 #   os.path.join(os.path.dirname(__file__), '../elabforms')))
-from template_builder import TemplateBuilder
-from template_part import TemplatePart
-from template import Template
+from elabforms.template_builder import TemplateBuilder
+from elabforms.template_part import TemplatePart
+from elabforms.template import Template
 
 
 class TestTemplateBuilder(unittest.TestCase):

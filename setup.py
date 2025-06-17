@@ -14,11 +14,15 @@ setup(
     name="elabforms",
     version=version,
     packages=find_packages(where="."),
-    #package_dir={"": "."},
+
     package_data={
-        "": ["*.json", "*.csv", "*.zip"],
+        "elabforms": [
+            "templates/**/*.html",
+            "VERSION",
+            "README.md",
+            "requirements.txt"
+        ],
     },
-    data_files=[('elabforms', ['VERSION', 'README.md', 'requirements.txt'])],
     author=" Fatai Idrissou, Sylvain Takerkart",
     description="A set of tools to create and manage standardized forms for eLabFTW",
     long_description_content_type="text/markdown",

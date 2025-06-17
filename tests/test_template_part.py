@@ -6,7 +6,7 @@ import sys
 #   sys.path.insert(0, os.path.abspath(
 #   os.path.join(os.path.dirname(__file__), '../elabforms')))
 
-from template_part import TemplatePart
+from elabforms.template_part import TemplatePart
 
 
 class TestTemplatePart(unittest.TestCase):
