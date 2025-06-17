@@ -9,11 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Run unit tests and PEP8 checks
-    env:
-      PYTHONPATH: ${{ github.workspace }}/elabforms
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: List root files
+        run: ls -l
+
+      - name: List elabforms directory
+        run: ls -l elabforms
 
       - name: Ensure VERSION file exists
         run: |
@@ -25,17 +29,10 @@ jobs:
           python-version: '3.10.5'
 
       - name: Install Python dependencies
-        run: |
-          pip install -e .[test]  # Install dependencies, including testing requirements
-
-      - name: install pytest coverage
-        run: |
-          pip install pytest-cov  # pytest-cov is not needed with -e .[test] if already in extras_require
+        run: pip install -e .[test]
 
       - name: Run Flake8 for PEP8 compliance
-        run: |
-          flake8 --count elabforms  # Check code for PEP8 compliance in the 'elabforms' directory
+        run: flake8 --count elabforms
 
       - name: Run pytest for unit tests
-        run: |
-          pytest --cov=elabforms  tests/  # Run unit tests and measure coverage
+        run: pytest --cov=elabforms tests/
