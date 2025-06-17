@@ -13,12 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: List root files
-        run: ls -l
-
-      - name: List elabforms directory
-        run: ls -l elabforms
-
       - name: Ensure VERSION file exists
         run: |
           if [ ! -f VERSION ]; then echo "0.1.0" > VERSION; fi
@@ -28,11 +22,12 @@ jobs:
         with:
           python-version: '3.10.5'
 
-      - name: Install Python dependencies and test tools
+      - name: Install dependencies including test extras and pytest-cov
         run: |
           pip install -e .[test]
           pip install pytest-cov
-          pip list
+          pip show pytest-cov
+          pytest --version
 
       - name: Run Flake8 for PEP8 compliance
         run: flake8 --count elabforms
