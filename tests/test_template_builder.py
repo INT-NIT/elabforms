@@ -4,7 +4,7 @@ import csv
 import json
 import sys
 #   sys.path.insert(0, os.path.abspath(
-#   os.path.join(os.path.dirname(__file__), '../src')))
+#   os.path.join(os.path.dirname(__file__), '../elabforms')))
 from template_builder import TemplateBuilder
 from template_part import TemplatePart
 from template import Template

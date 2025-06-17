@@ -3,10 +3,10 @@ from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.templating import Jinja2Templates
 import shutil
 import os
-from template_builder import TemplateBuilder
+from elabforms.template_builder import TemplateBuilder
 
 app = FastAPI()
-templates = Jinja2Templates(directory="src/templates")
+templates = Jinja2Templates(directory="elabforms/templates")
 
 
 @app.get("/", response_class=HTMLResponse)

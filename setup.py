@@ -13,8 +13,8 @@ with open('README.md') as f:
 setup(
     name="elabforms",
     version=version,
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
+    packages=find_packages(where="elabforms"),
+    #package_dir={"": "."},
     package_data={
         "": ["*.json", "*.csv", "*.zip"],
     },
@@ -32,7 +32,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "eform=src.cli:main"
+            "eform=elabforms.cli:main"
         ],
     },
 )
