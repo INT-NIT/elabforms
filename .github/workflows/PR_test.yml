@@ -15,23 +15,27 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Ensure VERSION file exists
+        run: |
+          if [ ! -f VERSION ]; then echo "0.1.0" > VERSION; fi
+
       - name: Set up Python 3.10.5
         uses: actions/setup-python@v4
         with:
           python-version: '3.10.5'
-  
+
       - name: Install Python dependencies
         run: |
           pip install -e .[test]  # Install dependencies, including testing requirements
 
-      - name: install  pytest coverage
+      - name: install pytest coverage
         run: |
-          pip install -e .[test] pytest-cov  # Ensure pytest-cov is installed
+          pip install pytest-cov  # pytest-cov is not needed with -e .[test] if already in extras_require
 
       - name: Run Flake8 for PEP8 compliance
         run: |
           flake8 --count elabforms  # Check code for PEP8 compliance in the 'elabforms' directory
-      - name: Run pytest for unit tests
 
+      - name: Run pytest for unit tests
         run: |
           pytest --cov=elabforms  tests/  # Run unit tests and measure coverage
