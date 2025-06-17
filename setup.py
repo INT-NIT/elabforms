@@ -13,7 +13,7 @@ with open('README.md') as f:
 setup(
     name="elabforms",
     version=version,
-    packages=find_packages(where="elabforms"),
+    packages=find_packages(where="."),
     #package_dir={"": "."},
     package_data={
         "": ["*.json", "*.csv", "*.zip"],
