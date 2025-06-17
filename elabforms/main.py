@@ -8,6 +8,7 @@ from elabforms.template_builder import TemplateBuilder
 app = FastAPI()
 templates = Jinja2Templates(directory="elabforms/templates")
 
+
 @app.get("/", response_class=HTMLResponse)
 async def read_form(request: Request):
     # Display the HTML upload form page
