@@ -16,7 +16,8 @@ Or you can clone the repositories using `git`.
 
 ### Install dependencies
 ```bash
-pip install fastapi pyyaml uvicorn python-multipart gitpython
+pip install fastapi pyyaml uvicorn python-multipart gitpython jinja2
+
 ```
 
 ## User mode
