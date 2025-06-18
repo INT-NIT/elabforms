@@ -30,7 +30,7 @@ jobs:
 
       - name: Run Flake8 for PEP8 compliance
         run: |
-          flake8 --count src  # Check code for PEP8 compliance in the 'src' directory
+          flake8 --count elabforms  # Check code for PEP8 compliance in the 'src' directory
       - name: Run pytest for unit tests
         run: |
-          pytest --cov=src  tests/  # Run unit tests and measure coverage
+          pytest --cov=elabforms  tests/  # Run unit tests and measure coverage
