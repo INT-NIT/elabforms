@@ -4,6 +4,7 @@ import os
 with open(os.path.join(os.path.dirname(__file__), "VERSION")) as version_file:
     version = version_file.read().strip()
 
+
 with open('requirements.txt') as f:
     requires = f.read().splitlines()
 

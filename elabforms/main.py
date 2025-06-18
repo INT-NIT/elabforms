@@ -6,7 +6,9 @@ import os
 from elabforms.template_builder import TemplateBuilder
 
 app = FastAPI()
-templates = Jinja2Templates(directory="elabforms/templates")
+#templates = Jinja2Templates(directory="elabforms/templates")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 
 @app.get("/", response_class=HTMLResponse)

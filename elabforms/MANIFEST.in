@@ -1,4 +1,0 @@
-recursive-include elabforms/templates *.html
-include elabforms/VERSION
-include elabforms/README.md
-include elabforms/requirements.txt
