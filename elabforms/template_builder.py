@@ -1,7 +1,7 @@
 import os
 import csv
-from template_part import TemplatePart
-from template import Template
+from .template_part import TemplatePart
+from .template import Template
 
 
 class TemplateBuilder:
