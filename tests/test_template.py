@@ -4,7 +4,7 @@ import json
 import sys
 
 
-from template import Template  # noqa: E402
+from elabforms.template import Template  # noqa: E402
 
 
 class TestTemplate(unittest.TestCase):

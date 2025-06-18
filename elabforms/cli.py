@@ -1,5 +1,5 @@
 import sys
-from template_builder import TemplateBuilder
+from .template_builder import TemplateBuilder
 
 
 def main():

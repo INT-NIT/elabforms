@@ -17,14 +17,16 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10.5'
-  
+      - name: Ensure VERSION file exists
+        run: |
+            if [ ! -f VERSION ]; then echo "0.1.0" > VERSION; fi
       - name: Install Python dependencies
         run: |
           pip install -e .[test]  # Install dependencies, including testing requirements
 
       - name: install  pytest coverage
         run: |
-          pip install -e .[test] pytest-cov  # Ensure pytest-cov is installed
+          pip install pytest-cov  # Ensure pytest-cov is installed
 
       - name: Run Flake8 for PEP8 compliance
         run: |
