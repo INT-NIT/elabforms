@@ -2,4 +2,7 @@
 gitpython
 PyYAML~=6.0.1
 setuptools~=68.2.0
+fastapi
+uvicorn
+python-multipart
 

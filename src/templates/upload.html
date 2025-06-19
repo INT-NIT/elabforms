@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Générateur de Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a button {
+            background-color: #007BFF;
+            margin-left: 10px;
+        }
+
+        a button:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Générateur de Template</h1>
+        <form action="/generate-template/" method="post" enctype="multipart/form-data">
+            <label for="project_name">Nom du projet :</label>
+            <input type="text" id="project_name" name="project_name" required>
+
+            <label for="template_parts_list_file">Fichier CSV :</label>
+            <input type="file" name="template_parts_list_file" accept=".csv" required>
+
+            <button type="submit">Générer le Template</button>
+        </form>
+
+        <a href="https://int.cle.cnrs.fr/login.php" target="_blank">
+            <button type="button">Visualiser le Template</button>
+        </a>
+    </div>
+</body>
+</html>
