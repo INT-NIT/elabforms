@@ -1,51 +1,65 @@
+
 # elabforms
-A set of tools to create and manage standardized forms for eLabFTW
+
+A set of tools to create and manage standardized forms for eLabFTW.
+
+---
 
 ## Create a virtual environment
+
 ```bash
 python3 -m venv myenv
 source myenv/bin/activate
-```
+````
+
+---
 
 ## Installation
-you will need temaplates_part files to generate the final template.
-these files are located in the `elabforms_INTProjects` and `elabforms_BIDSMetadata` repositories. int NIT PRIVATE git repositories.
-Make sure you have `git` and `pip` installed. You can download and unzip the following repositories:
-- git@github.com:INT-NIT/elabforms_INTProjects.git
-- git@github.com:INT-NIT/elabforms_BIDSMetadata.git
 
-Or you can clone the repositories using `git`.
+You will need `template_part` files to generate the final template.
+These files are located in the `elabforms_INTProjects` and `elabforms_BIDSMetadata` repositories — private Git repositories at NIT.
 
+**Reminder:**
+A `template_part` is an elabform with a single `groupfield`.
+You need to create a `template_file_list.csv` file listing the parts you want to concatenate, **in this order**, for example:
 
+```csv
+template_part_Example_1.json
+template_part_Example_2.json
+...
+template_part_Example_N.json
+```
 
-## User mode 
+Each line corresponds to one template part file.
+
+---
+
+## User mode
+
+Install the package from Test PyPI:
+
 ```bash
 pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple elabforms==0.0.6
 ```
 
 ### Usage
-- Test the installation:
+
+* Test the installation by running:
+
   ```bash
   eform --help
   ```
-- Create a new form:
+
+* To create a new form, run:
+
   ```bash
-  eform liste_template_part.csv template_generated.json
+  eform template_file_list.csv template_generated.json
   ```
 
-<!----
-### Clone the repository for development
-```bash
-git clone git@github.com:INT-NIT/elabforms.git
-cd elabforms
-pip install -r requirements.txt
 ```
 
-## Usage
-```bash
-cd elabforms
-python generate_templates.py template_file_list.csv template_generated.json
-```
+
+
 
 ## Example
 Assuming you have a file `template_file_list.csv` with the following content:
@@ -53,11 +67,7 @@ Assuming you have a file `template_file_list.csv` with the following content:
 template_part_Example_1.json
 template_part_Example_2.json
 ```
-Then run:
-```bash
-python generate_templates.py template_file_list.csv template_generated.json
-```
--->
+
 This will generate the file `template_generated.json` which will contain the content of the two files concatenated together.
 
 
