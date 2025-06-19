@@ -8,6 +8,8 @@ source myenv/bin/activate
 ```
 
 ## Installation
+you will need temaplates_part files to generate the final template.
+these files are located in the `elabforms_INTProjects` and `elabforms_BIDSMetadata` repositories. int NIT PRIVATE git repositories.
 Make sure you have `git` and `pip` installed. You can download and unzip the following repositories:
 - git@github.com:INT-NIT/elabforms_INTProjects.git
 - git@github.com:INT-NIT/elabforms_BIDSMetadata.git
@@ -16,7 +18,7 @@ Or you can clone the repositories using `git`.
 
 
 
-## User mode (datamanager)
+## User mode 
 ```bash
 pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple elabforms==0.0.6
 ```
@@ -31,7 +33,7 @@ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://
   eform liste_template_part.csv template_generated.json
   ```
 
-
+<!----
 ### Clone the repository for development
 ```bash
 git clone git@github.com:INT-NIT/elabforms.git
@@ -55,7 +57,7 @@ Then run:
 ```bash
 python generate_templates.py template_file_list.csv template_generated.json
 ```
-
+-->
 This will generate the file `template_generated.json` which will contain the content of the two files concatenated together.
 
 
