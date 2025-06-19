@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>elabforms.template_builder &#8212; elabforms 0.0.6 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for elabforms.template_builder</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">.template_part</span> <span class="kn">import</span> <span class="n">TemplatePart</span>
+<span class="kn">from</span> <span class="nn">.template</span> <span class="kn">import</span> <span class="n">Template</span>
+
+
+<div class="viewcode-block" id="TemplateBuilder"><a class="viewcode-back" href="../../elabforms.html#elabforms.template_builder.TemplateBuilder">[docs]</a><span class="k">class</span> <span class="nc">TemplateBuilder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to generate a complete template from multiple parts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">template_parts_list_file</span><span class="p">,</span> <span class="n">template_file_path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class to generate a complete template from multiple parts.</span>
+
+<span class="sd">        Attributes:</span>
+<span class="sd">             template_parts_list_file (str): Path to the CSV file</span>
+<span class="sd">                listing template parts.</span>
+
+<span class="sd">             template_parts_list (list): List of JSON file paths for</span>
+<span class="sd">             template parts.</span>
+<span class="sd">              template_file_path (str, optional): Path to the</span>
+<span class="sd">             output JSON file.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template_parts_list_file</span> <span class="o">=</span> <span class="n">template_parts_list_file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">template_parts_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_template_parts_list</span><span class="p">(</span>
+            <span class="n">template_parts_list_file</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">template_file_path</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">template_file_path</span> <span class="o">=</span> <span class="n">template_file_path</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">build_template</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">,</span> <span class="n">template_file_path</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TemplateBuilder.read_template_parts_list"><a class="viewcode-back" href="../../elabforms.html#elabforms.template_builder.TemplateBuilder.read_template_parts_list">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">read_template_parts_list</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads a list of template part files from a CSV file.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">            template_parts_list_file (str): Path to the CSV file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: List of JSON file paths.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the file extension is not supported.</span>
+<span class="sd">            FileNotFoundError: If a file is not found.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">template_parts_list_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unsupported file extension: </span><span class="si">{</span><span class="n">template_parts_list_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">template_parts_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span> <span class="k">if</span> <span class="n">row</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">template_part</span> <span class="ow">in</span> <span class="n">template_parts_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">template_part</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File not found: </span><span class="si">{</span><span class="n">template_part</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">template_part</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;The file must be in JSON format: </span><span class="si">{</span><span class="n">template_part</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">template_parts_list</span></div>
+
+<div class="viewcode-block" id="TemplateBuilder.build_template"><a class="viewcode-back" href="../../elabforms.html#elabforms.template_builder.TemplateBuilder.build_template">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">build_template</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">,</span> <span class="n">template_file_path</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     Generates a complete template by merging all the listed parts.</span>
+
+<span class="sd">     Parameters:</span>
+<span class="sd">            template_parts_list_file (str): Path to the CSV file</span>
+<span class="sd">     listing the parts.</span>
+<span class="sd">            template_file_path (str): Path to the output JSON file.</span>
+
+<span class="sd">     Returns:</span>
+<span class="sd">         None</span>
+<span class="sd">     &quot;&quot;&quot;</span>
+        <span class="n">template_builder</span> <span class="o">=</span> <span class="n">TemplateBuilder</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">)</span>
+
+        <span class="n">full_template</span> <span class="o">=</span> <span class="n">Template</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">new_id</span><span class="p">,</span> <span class="n">template_part_file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+                <span class="n">template_builder</span><span class="o">.</span><span class="n">template_parts_list</span><span class="p">):</span>
+            <span class="n">template_part</span> <span class="o">=</span> <span class="n">TemplatePart</span><span class="p">(</span><span class="n">template_part_file</span><span class="p">)</span>
+
+            <span class="n">template_part</span><span class="o">.</span><span class="n">set_content_id</span><span class="p">(</span><span class="n">new_id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">full_template</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                <span class="n">full_template</span> <span class="o">=</span> <span class="n">template_part</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">full_template</span><span class="o">.</span><span class="n">add_template_part</span><span class="p">(</span>
+                                                <span class="n">template_part</span><span class="p">)</span>
+
+        <span class="n">full_template</span><span class="o">.</span><span class="n">save_template</span><span class="p">(</span><span class="n">template_file_path</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">elabforms</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../elabforms.html">elabforms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">elabforms</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2025, Fatai Idrissou, Sylvain Takerkart.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
