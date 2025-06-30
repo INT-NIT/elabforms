@@ -18,13 +18,15 @@ extensions = [
     'sphinx.ext.napoleon',     # Pour docstrings style Google/Numpy
     'sphinx.ext.viewcode',     # Ajoute les liens vers le code source
 ]
+autosummary_generate = True
+
 
 templates_path = ['_templates']
 exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
 
-html_theme = 'alabaster'  # Tu peux aussi essayer 'sphinx_rtd_theme'
+html_theme = 'alabaster'
 html_static_path = ['_static']
 
 # -- Language ----------------------------------------------------------------

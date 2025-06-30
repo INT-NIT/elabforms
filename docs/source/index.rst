@@ -12,10 +12,10 @@ Module API
 ==========
 
 .. automodule:: elabforms
-   :noindex:
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 Indices and tables
 ==================
