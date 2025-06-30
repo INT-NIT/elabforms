@@ -5,8 +5,13 @@ Welcome to elabforms's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+
+   description
    elabforms
    modules
+   installation
+   usage
+   example
 
 Module API
 ==========
