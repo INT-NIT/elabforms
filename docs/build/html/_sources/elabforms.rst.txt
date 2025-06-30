@@ -12,8 +12,8 @@ elabforms.cli module
    :undoc-members:
    :show-inheritance:
 
-elabforms.generate\_templates module
-------------------------------------
+elabforms.generate_templates module
+-----------------------------------
 
 .. automodule:: elabforms.generate_templates
    :members:
@@ -28,16 +28,16 @@ elabforms.template module
    :undoc-members:
    :show-inheritance:
 
-elabforms.template\_builder module
-----------------------------------
+elabforms.template_builder module
+---------------------------------
 
 .. automodule:: elabforms.template_builder
    :members:
    :undoc-members:
    :show-inheritance:
 
-elabforms.template\_part module
--------------------------------
+elabforms.template_part module
+------------------------------
 
 .. automodule:: elabforms.template_part
    :members:
