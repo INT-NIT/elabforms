@@ -29,3 +29,5 @@ html_static_path = ['_static']
 
 # -- Language ----------------------------------------------------------------
 language = 'en'
+master_doc = 'index'
+
