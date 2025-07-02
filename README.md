@@ -15,7 +15,7 @@ cd src
 
 python generate_templates.py template_file_list.csv template_generated.json
 ```
-
+## for full documentation , see [readthedocs](https://elabform.readthedocs.io/en/latest/)
 ## Example
 assuming you have a file `template_file_list.csv` with the following content:
 ```csv
