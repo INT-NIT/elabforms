@@ -1,30 +1,75 @@
-# elabforms
-A set of tools to create and manage standardized forms for eLabFTW
 
+# elabforms
+
+A set of tools to create and manage standardized forms for eLabFTW.
+
+---
+
+## Create a virtual environment
+
+```bash
+python3 -m venv myenv
+source myenv/bin/activate
+````
+
+---
 
 ## Installation
-```bash
-git clone git@github.com:INT-NIT/elabforms.git
-cd elabforms
 
-pip install -r requirements.txt
-``` 
-## Usage
-```bash
-cd src
+You will need `template_part` files to generate the final template.
+These files are located in the `elabforms_INTProjects` and `elabforms_BIDSMetadata` repositories — private Git repositories at NIT.
 
-python generate_templates.py template_file_list.csv template_generated.json
-```
-## For full documentation , see [readthedocs](https://elabform.readthedocs.io/en/latest/)
-## Example
-assuming you have a file `template_file_list.csv` with the following content:
+**Reminder:**
+A `template_part` is an elabform with a single `groupfield`.
+You need to create a `template_file_list.csv` file listing the parts you want to concatenate, **in this order**, for example:
+
 ```csv
 template_part_Example_1.json
 template_part_Example_2.json
+...
+template_part_Example_N.json
+```
+
+Each line corresponds to one template part file.
+
+---
+
+## User mode
+
+Install the package from Test PyPI:
 
 ```bash
-python generate_templates.py template_file_list.csv template_generated.json
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple elabforms==0.0.6
 ```
+
+### Usage
+
+* Test the installation by running:
+
+  ```bash
+  eform --help
+  ```
+
+* To create a new form, run:
+
+  ```bash
+  eform template_file_list.csv template_generated.json
+  ```
+
+```
+
+## Example
+Assuming you have a file `template_file_list.csv` with the following content:
+```csv
+template_part_Example_1.json
+template_part_Example_2.json
+```
+
+This will generate the file `template_generated.json` which will contain the content of the two files concatenated together.
+
+
+```
+
  let 's template_part_Example_1.json` ![GENERIC_BIDS_SESSION](docs/GNERIC_BIDS_SESSION.png) 
 
 with content:
