@@ -1,4 +1,4 @@
-
+# For the full documentation, see [readthedocs](https://elabforms.readthedocs.io)
 # elabforms
 
 A set of tools to create and manage standardized forms for eLabFTW.
