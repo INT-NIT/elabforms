@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>elabforms.generate_templates &mdash; elabforms 0.0.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=1fd71caa"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            elabforms
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../elabforms.html">elabforms package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">elabforms</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">elabforms.generate_templates</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for elabforms.generate_templates</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+
+<div class="viewcode-block" id="read_template_parts_list">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.read_template_parts_list">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_template_parts_list</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a file containing a list of template parts to be concatenated.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        template_parts_list_file (str): Path to the .csv or .txt file</span>
+<span class="sd">        containing the list.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list of str: A list of file paths as strings.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the file extension is not supported.</span>
+<span class="sd">        FileNotFoundError: If the file does not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">template_parts_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">template_parts_list_file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">):</span>
+        <span class="n">template_parts_list</span> <span class="o">=</span> <span class="n">read_template_parts_list_csv</span><span class="p">(</span>
+            <span class="n">template_parts_list_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unsupported file extension: </span><span class="si">{</span><span class="n">template_parts_list_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">template_part</span> <span class="ow">in</span> <span class="n">template_parts_list</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">template_part</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File not found: </span><span class="si">{</span><span class="n">template_part</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">template_part</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File must be in json format: </span><span class="si">{</span><span class="n">template_part</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">template_parts_list</span></div>
+
+
+
+<div class="viewcode-block" id="read_template_parts_list_csv">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.read_template_parts_list_csv">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_template_parts_list_csv</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads file paths from a CSV file. Assumes the first column contains</span>
+<span class="sd">    the paths.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        template_parts_list_file (str): Path to the CSV file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list of str: A list of strings from the first column of each row.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: If the file does not exist.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span> <span class="k">if</span> <span class="n">row</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="read_template_part">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.read_template_part">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">read_template_part</span><span class="p">(</span><span class="n">template_parts_file</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reads a JSON template parts file and extracts the &#39;groupfield&#39; and</span>
+<span class="sd">    its details.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        template_parts_file (str): Path to a JSON file representing a</span>
+<span class="sd">        template parts.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      content (dict): The parsed JSON content.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: If the JSON file does not exist.</span>
+<span class="sd">        json.JSONDecodeError: If the JSON structure is invalid.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_parts_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">template_parts_content</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+            <span class="n">check_template_parts_structure</span><span class="p">(</span><span class="n">template_parts_content</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">template_parts_content</span>
+    <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid template parts file: Missing key </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="check_template_parts_structure">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.check_template_parts_structure">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">check_template_parts_structure</span><span class="p">(</span><span class="n">template_parts_file_content</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validates the structure of a template parts content against Elab</span>
+<span class="sd">    format rules.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        template_parts_file_content (dict): The JSON-parsed content of</span>
+<span class="sd">        the template parts.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if the structure is valid.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the structure does not meet the required format.</span>
+<span class="sd">        Warning: If some fields do not have corresponding &#39;groupfield&#39;</span>
+<span class="sd">        mappings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the required keys are present</span>
+    <span class="n">required_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">,</span> <span class="s1">&#39;extra_fields&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">required_keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">template_parts_file_content</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid template parts file: Missing key </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check if &#39;elabftw&#39; contains &#39;extra_fields_groups&#39;</span>
+    <span class="k">if</span> <span class="s1">&#39;extra_fields_groups&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">template_parts_file_content</span><span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid template parts file: Missing &quot;</span>
+                         <span class="s2">&quot;&#39;extra_fields_groups&#39; in &#39;elabftw&#39;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">template_parts_file_content</span><span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">]</span>
+                      <span class="p">[</span><span class="s1">&#39;extra_fields_groups&#39;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid template parts file: &#39;extra_fields_groups&#39; &quot;</span>
+                         <span class="s2">&quot;should be a list&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">template_parts_file_content</span><span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">][</span><span class="s1">&#39;extra_fields_groups&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid template parts file: &#39;extra_fields_groups&#39; &quot;</span>
+                         <span class="s2">&quot;list is empty&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span>
+               <span class="n">template_parts_file_content</span><span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">][</span><span class="s1">&#39;extra_fields_groups&#39;</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid template parts file: &#39;extra_fields_groups&#39; &quot;</span>
+                         <span class="s2">&quot;should contain&quot;</span>
+                         <span class="s2">&quot;dictionaries&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set_content_id">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.set_content_id">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_content_id</span><span class="p">(</span><span class="n">new_id</span><span class="p">,</span> <span class="n">template_parts_file_content</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Updates the ID of the content in a template parts.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        new_id (int): The new ID to assign.</span>
+<span class="sd">        template_parts_file_content (dict): The original template parts</span>
+<span class="sd">        content.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: The updated template parts content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Update the ID in the &#39;extra_fields_groups&#39;</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">template_parts_file_content</span><span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">][</span><span class="s1">&#39;extra_fields_groups&#39;</span><span class="p">]:</span>
+        <span class="n">group</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_id</span>
+
+    <span class="c1"># Update the ID in the &#39;extra_fields&#39;</span>
+    <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">template_parts_file_content</span><span class="p">[</span><span class="s1">&#39;extra_fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">field</span><span class="p">[</span><span class="s1">&#39;group_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_id</span>
+
+    <span class="k">return</span> <span class="n">template_parts_file_content</span></div>
+
+
+
+<div class="viewcode-block" id="concatenate_templates">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.concatenate_templates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">concatenate_templates</span><span class="p">(</span><span class="n">existing_template_parts_content</span><span class="p">,</span>
+                          <span class="n">new_template_part_content</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Concatenates the contents of two template parts.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        existing_template_parts_content (dict): Content of the existing</span>
+<span class="sd">        template.</span>
+<span class="sd">        new_template_parts_content (dict): Content of the new template</span>
+<span class="sd">        to append.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: The merged template content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Merge the &#39;extra_fields_groups&#39;</span>
+    <span class="n">existing_template_parts_content</span><span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">][</span><span class="s1">&#39;extra_fields_groups&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+        <span class="n">new_template_part_content</span><span class="p">[</span><span class="s1">&#39;elabftw&#39;</span><span class="p">][</span><span class="s1">&#39;extra_fields_groups&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="c1"># Merge the &#39;extra_fields&#39;</span>
+    <span class="n">existing_template_parts_content</span><span class="p">[</span><span class="s1">&#39;extra_fields&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="n">new_template_part_content</span><span class="p">[</span><span class="s1">&#39;extra_fields&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">existing_template_parts_content</span></div>
+
+
+
+<div class="viewcode-block" id="save_template">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.save_template">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_template</span><span class="p">(</span><span class="n">full_template_content</span><span class="p">,</span> <span class="n">template_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Saves the template content to a JSON file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        full_template_content (dict): The content to save.</span>
+<span class="sd">        template_file_path (str): Path to the output JSON file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Save the content to the file</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_file_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">full_template_content</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="generate_template">
+<a class="viewcode-back" href="../../elabforms.html#elabforms.generate_templates.generate_template">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_template</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">,</span> <span class="n">template_file_path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a full template by merging all template parts listed in a</span>
+<span class="sd">    file.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">        template_parts_list_file (str): Path to a .csv or .txt file</span>
+<span class="sd">        listing JSON parts files.</span>
+<span class="sd">        template_file_path (str): Path to the output JSON file to save</span>
+<span class="sd">        the template.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Read the list of template parts</span>
+    <span class="n">template_parts_list</span> <span class="o">=</span> <span class="n">read_template_parts_list</span><span class="p">(</span><span class="n">template_parts_list_file</span><span class="p">)</span>
+
+    <span class="c1"># Initialize the full template content</span>
+    <span class="n">full_template_content</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="c1"># Iterate through each template part file</span>
+    <span class="k">for</span> <span class="n">new_id</span><span class="p">,</span> <span class="n">template_part_file</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">template_parts_list</span><span class="p">):</span>
+        <span class="c1"># Read the content of the current template part</span>
+        <span class="n">new_template_part_content</span> <span class="o">=</span> <span class="n">read_template_part</span><span class="p">(</span>
+            <span class="n">template_part_file</span><span class="p">)</span>
+
+        <span class="n">new_template_part_content</span> <span class="o">=</span> <span class="n">set_content_id</span><span class="p">(</span>
+            <span class="n">new_id</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="n">new_template_part_content</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">full_template_content</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">full_template_content</span> <span class="o">=</span> <span class="n">new_template_part_content</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">full_template_content</span> <span class="o">=</span> <span class="n">concatenate_templates</span><span class="p">(</span>
+                <span class="n">full_template_content</span><span class="p">,</span> <span class="n">new_template_part_content</span><span class="p">)</span>
+
+        <span class="c1"># Update the ID of the content</span>
+
+    <span class="c1"># Save the final merged template to a file</span>
+    <span class="n">save_template</span><span class="p">(</span><span class="n">full_template_content</span><span class="p">,</span> <span class="n">template_file_path</span><span class="p">)</span></div>
+
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Usage: python generate_templates.py &quot;</span>
+              <span class="s2">&quot;&lt;template_parts_list_file.csv&gt;&quot;</span>
+              <span class="s2">&quot;&lt;output_template.json&gt;&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">generate_template</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Fatai Idrissou, Sylvain Takerkart.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
