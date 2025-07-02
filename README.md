@@ -58,9 +58,6 @@ pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://
 
 ```
 
-
-
-
 ## Example
 Assuming you have a file `template_file_list.csv` with the following content:
 ```csv
