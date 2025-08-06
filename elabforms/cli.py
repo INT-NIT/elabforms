@@ -18,7 +18,6 @@ def main(template_parts_list_file, output_template_file):
 
 def cli():
 
-
     """
     Command-line interface using argparse.
     """
@@ -39,4 +38,5 @@ def cli():
     main(args.template_parts_list_file, args.output_template_file)
 
 if __name__ == "__main__":
+
     cli()
