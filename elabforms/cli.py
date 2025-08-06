@@ -16,6 +16,7 @@ def main(template_parts_list_file, output_template_file):
         print(f"Error: {e}")
         sys.exit(1)
 
+
 def cli():
 
     """
@@ -36,6 +37,7 @@ def cli():
     )
     args = argparser.parse_args()
     main(args.template_parts_list_file, args.output_template_file)
+
 
 if __name__ == "__main__":
 
