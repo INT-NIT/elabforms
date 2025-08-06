@@ -1,28 +1,44 @@
 import sys
 from .template_builder import TemplateBuilder
+import argparse
 
 
-def main():
+def main(template_parts_list_file, output_template_file):
+
     """
-    Main function to handle CLI arguments and execute the template generation.
+    Main function to execute the template generation.
     """
-    if len(sys.argv) != 3:
-        print("Usage: python cli.py <template_parts_list_file.csv>"
-              " <output_template.json>")
-        sys.exit(1)
-
-    template_parts_list_file = sys.argv[1]
-    output_template_file = sys.argv[2]
-
     try:
-        TemplateBuilder(template_parts_list_file,
-                        output_template_file)
-        print(f"Template successfully generated and saved to"
-              f" {output_template_file}")
+        TemplateBuilder(template_parts_list_file, output_template_file)
+        print(f"Template successfully generated and saved to "
+              f"{output_template_file}")
     except Exception as e:
         print(f"Error: {e}")
         sys.exit(1)
 
 
+def cli():
+
+    """
+    Command-line interface using argparse.
+    """
+    argparser = argparse.ArgumentParser(
+        description="Generate a JSON template from a CSV list of parts."
+    )
+    argparser.add_argument(
+        "-l", "--template_parts_list", dest="template_parts_list_file",
+        required=True, type=str,
+        help="Path to the CSV file listing the parts of the template"
+    )
+    argparser.add_argument(
+        "-o", "--output", dest="output_template_file",
+        required=True, type=str,
+        help="Path to the output JSON template file"
+    )
+    args = argparser.parse_args()
+    main(args.template_parts_list_file, args.output_template_file)
+
+
 if __name__ == "__main__":
-    main()
+
+    cli()

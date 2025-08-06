@@ -41,7 +41,10 @@ Install the package from Test PyPI:
 ```bash
 pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple elabforms==0.0.6
 ```
-
+or directly from PyPI:
+```bash
+pip install elabforms==0.0.8
+```
 ### Usage
 
 * Test the installation by running:
