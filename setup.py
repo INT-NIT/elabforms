@@ -29,7 +29,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "eform=elabforms.cli:main"
+            "eform=elabforms.cli:cli"
         ],
     },
 )
